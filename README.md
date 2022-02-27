@@ -39,7 +39,7 @@ class Calculadora {
 Salve o arquivo acima em uma pasta e rode o comando abaixo, indicando a pasta onde existem os arquivos para teste
 
 ```bash
-php vendor/albreis/bin/test {diretorio}
+php vendor/albreis/test/test {diretorio}
 ```
 
 ### Exemplo 2
@@ -59,7 +59,7 @@ class Anime {
 ```
 
 ```bash
-php vendor/albreis/bin/test {diretorio}
+php vendor/albreis/test/test {diretorio}
 ```
 
 ### Escrevendo testes em arquivos externos
