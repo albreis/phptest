@@ -32,6 +32,10 @@ class Calculadora {
 
 Salve o arquivo acima em uma pasta e rode o comando abaixo, indicando a pasta onde existem os arquivos para teste
 
+```bash
+php vendor/albreis/bin/test {diretorio}
+```
+
 ### Exemplo 2
 
 ```php
