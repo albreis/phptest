@@ -1,5 +1,7 @@
 # PHPTest
 
+Uma alternativa ao PHPUnit
+
 ## Como funciona
 Este pacote serve para gerar teste a partir de comentários no código.
 Uma alternativa mais simplista ao PHPUnit.
