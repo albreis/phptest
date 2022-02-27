@@ -28,7 +28,7 @@ class Calculadora {
         return ($num1 + $num2);
     }
 }
-php
+```
 
 Salve o arquivo acima em uma pasta e rode o comando abaixo, indicando a pasta onde existem os arquivos para teste
 
@@ -46,7 +46,7 @@ class Anime {
         return file_get_contents('https://animechan.vercel.app/api/random');
     }
 }
-php
+```
 
 ```bash
 php vendor/albreis/bin/test {diretorio}
