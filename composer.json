@@ -1,5 +1,5 @@
 {
-  "name": "albreis/test",
+  "name": "albreis/phptest",
   "version": "0.0.2",
   "type": "library",
   "require": {
