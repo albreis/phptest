@@ -6,6 +6,12 @@ A idéia é diminuir o trabalho por trás da tarefa massante que é criar testes
 
 # Como usar
 
+Você pode clonar o repositorio ou então instalar utilizando o composer:
+
+```bash
+composer require albreis/test
+```
+
 Para utilizar está suite de teste basta utilizar o padrão:
 
 @test return [codigo php para executar]
