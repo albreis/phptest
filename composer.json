@@ -1,6 +1,6 @@
 {
   "name": "albreis/phptest",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "library",
   "require": {
     "php": ">=7.2"
