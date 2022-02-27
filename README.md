@@ -139,6 +139,8 @@ Status: Success
 Congratulations! All tests are passed.
 ```
 
+## Helpers
 
-### **Finalizado!**
-Todos os testes serão executados
+get_http_status_code(string $url)
+
+Retorna o código de status HTTP
