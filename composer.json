@@ -1,13 +1,9 @@
 {
   "name": "albreis/test",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "library",
   "require": {
     "php": ">=7.2"
   },
-  "autoload": {
-    "psr-4": {
-      "Albreis\\": "src"
-    }
-  }
+  "bin": ["phptest"]
 }

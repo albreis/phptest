@@ -1,15 +1,17 @@
-# Como funciona
+# PHPTest
+
+## Como funciona
 Este pacote serve para gerar teste a partir de comentários no código.
 Uma alternativa mais simplista ao PHPUnit.
 
 A idéia é diminuir o trabalho por trás da tarefa massante que é criar testes.
 
-# Como usar
+## Como usar
 
 Você pode clonar o repositorio ou então instalar utilizando o composer:
 
 ```bash
-composer require albreis/test
+composer require albreis/phptest
 ```
 
 Para utilizar está suite de teste basta utilizar o padrão:
@@ -39,7 +41,13 @@ class Calculadora {
 Salve o arquivo acima em uma pasta e rode o comando abaixo, indicando a pasta onde existem os arquivos para teste
 
 ```bash
-php vendor/albreis/test/test {diretorio}
+php vendor/bin/phptest {diretorio}
+```
+
+ou
+
+```bash
+php vendor/albreis/test/phptest {diretorio}
 ```
 
 ### Exemplo 2
@@ -59,7 +67,7 @@ class Anime {
 ```
 
 ```bash
-php vendor/albreis/test/test {diretorio}
+php vendor/albreis/test/phptest {diretorio}
 ```
 
 ### Escrevendo testes em arquivos externos
