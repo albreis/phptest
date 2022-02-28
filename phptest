@@ -19,8 +19,6 @@ ${"{$varname}_classes"} = [];
 ${"{$varname}_tmp_dir"} = dirname(__FILE__) . '/tmp';
 if(!file_exists(${"{$varname}_tmp_dir"})) { mkdir(${"{$varname}_tmp_dir"}, 0755, true); }
 ${"{$varname}_errors"} = 0;
-// set_error_handler(function() {}); 
-// set_exception_handler(function() {});
 require __DIR__ . '/helpers.php';
 foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
   if(!${"{$varname}_file"}->isDir()) {
@@ -69,6 +67,79 @@ foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
         ob_start();
         try {
           ${"{$varname}_result"} = require ${"{$varname}_tmp"};
+        }
+        catch(Exception | ErrorException | Error | ArgumentCountError | ArithmeticError | AssertionError | DivisionByZeroError | CompileError | ParseError | TypeError $e) {
+          ${"{$varname}_result"} = $e->getMessage();
+        }
+        ob_end_clean();
+        $ln = 0;
+        foreach(file(${"{$varname}_file"}) as $ln => $line) {
+          if(stripos($line, ${"{$varname}_test"}) !== false) break;
+        }
+        $ln++;
+        echo "File: ".realpath(${"{$varname}_file"})."\n";
+        echo "Line: {$ln}\n";
+        echo "Test using: {$basedir}/{${"{$varname}_test"}}\n";
+        echo "Source: \n---------\n" . file_get_contents($basedir . '/' . ${"{$varname}_test"}) . "\n---------\n";
+        echo "Return: "; var_dump(${"{$varname}_result"});
+        echo "Status: " . (${"{$varname}_result"} === true ? 'Success' : 'Failed');
+        echo "\n\n";
+        unlink(${"{$varname}_tmp"});
+        if(${"{$varname}_result"} !== true) {
+          ${"{$varname}_errors"}++;
+        }
+      }
+    }
+    preg_match_all('/\@test:js[\s]+(.*)/', ${"{$varname}_contents"}, ${"{$varname}__matches"});
+    if(isset(${"{$varname}__matches"}[1])) {
+      foreach(${"{$varname}__matches"}[1] as ${"{$varname}__test_key"} => ${"{$varname}_test"}) {
+        ${"{$varname}_test"} = trim(${"{$varname}_test"});
+        ${"{$varname}_tmp_name"} = md5(microtime());
+        ${"{$varname}_tmp"} = "{${"{$varname}_tmp_dir"}}/test-{${"{$varname}_tmp_name"}}.js";          
+        file_put_contents(${"{$varname}_tmp"}, "{${"{$varname}_test"}}");
+        ob_start();
+        try {
+          exec('node ' . ${"{$varname}_tmp"}, $result);
+          ${"{$varname}_result"} = '';
+          if(isset($result[0])) {
+            ${"{$varname}_result"} = in_array($result[0], ['true', 'false', true, false]) ? (bool)$result[0] : $result[0];
+          }
+        }
+        catch(Exception | ErrorException | Error | ArgumentCountError | ArithmeticError | AssertionError | DivisionByZeroError | CompileError | ParseError | TypeError $e) {
+          ${"{$varname}_result"} = $e->getMessage();
+        }
+        ob_end_clean();
+        $ln = 0;
+        foreach(file(${"{$varname}_file"}) as $ln => $line) {
+          if(stripos($line, ${"{$varname}_test"}) !== false) break;
+        }
+        $ln++;
+        echo "File: ".realpath(${"{$varname}_file"})."\n";
+        echo "Line: {$ln}\n";
+        echo "Test: {${"{$varname}_test"}}\n";
+        echo "Return: "; var_dump(${"{$varname}_result"});
+        echo "Status: " . (${"{$varname}_result"} === true ? 'Success' : 'Failed');
+        echo "\n\n";
+        unlink(${"{$varname}_tmp"});
+        if(${"{$varname}_result"} !== true) {
+          ${"{$varname}_errors"}++;
+        }
+      }
+    }
+    preg_match_all('/\@test_using:js[\s]+(.*)/', ${"{$varname}_contents"}, ${"{$varname}__matches"});
+    if(isset(${"{$varname}__matches"}[1])) {
+      foreach(${"{$varname}__matches"}[1] as ${"{$varname}__test_key"} => ${"{$varname}_test"}) {
+        ${"{$varname}_test"} = trim(${"{$varname}_test"});
+        ${"{$varname}_tmp_name"} = md5(microtime());
+        ${"{$varname}_tmp"} = "{${"{$varname}_tmp_dir"}}/test-{${"{$varname}_tmp_name"}}.js";          
+        file_put_contents(${"{$varname}_tmp"}, file_get_contents($basedir . '/' . ${"{$varname}_test"}));
+        ob_start();
+        try {
+          exec('node ' . ${"{$varname}_tmp"}, $result);
+          ${"{$varname}_result"} = '';
+          if(isset($result[0])) {
+            ${"{$varname}_result"} = in_array($result[0], ['true', 'false', true, false]) ? (bool)$result[0] : $result[0];
+          }
         }
         catch(Exception | ErrorException | Error | ArgumentCountError | ArithmeticError | AssertionError | DivisionByZeroError | CompileError | ParseError | TypeError $e) {
           ${"{$varname}_result"} = $e->getMessage();
