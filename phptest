@@ -19,13 +19,17 @@ ${"{$varname}_classes"} = [];
 ${"{$varname}_tmp_dir"} = dirname(__FILE__) . '/tmp';
 if(!file_exists(${"{$varname}_tmp_dir"})) { mkdir(${"{$varname}_tmp_dir"}, 0755, true); }
 ${"{$varname}_errors"} = 0;
+// set_error_handler(function() {}); 
+// set_exception_handler(function() {});
 require __DIR__ . '/helpers.php';
 foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
   if(!${"{$varname}_file"}->isDir()) {
+    ob_start();
     require ${"{$varname}_file"}->getPathname();
+    ob_end_clean();
     ${"{$varname}_files"}[] = ${"{$varname}_file"}->getPathname();
     ${"{$varname}_contents"} = file_get_contents(${"{$varname}_file"}->getPathname());
-    preg_match_all('/\@test[\s]+(.*)/', ${"{$varname}_contents"}, ${"{$varname}__matches"});
+    preg_match_all('/\@test[\s]+(.*);?/', ${"{$varname}_contents"}, ${"{$varname}__matches"});
     defined('TESTED_CLASS_DIR') || define('TESTED_CLASS_DIR', realpath(dirname(${"{$varname}_file"}->getPathname())));
     $basedir = TESTED_CLASS_DIR;
     if(isset(${"{$varname}__matches"}[1])) {
@@ -58,7 +62,7 @@ foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
         }
       }
     }
-    preg_match_all('/\@test_using[\s]+(.*)/', ${"{$varname}_contents"}, ${"{$varname}__matches"});
+    preg_match_all('/\@test_using[\s]+(.*);?/', ${"{$varname}_contents"}, ${"{$varname}__matches"});
     if(isset(${"{$varname}__matches"}[1])) {
       foreach(${"{$varname}__matches"}[1] as ${"{$varname}__test_key"} => ${"{$varname}_test"}) {
         ${"{$varname}_tmp_name"} = md5(microtime());
@@ -90,19 +94,19 @@ foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
         }
       }
     }
-    preg_match_all('/\@test:js[\s]+(.*)/', ${"{$varname}_contents"}, ${"{$varname}__matches"});
+    preg_match_all('/\@test:js return[\s]+(.*);?/', ${"{$varname}_contents"}, ${"{$varname}__matches"});
     if(isset(${"{$varname}__matches"}[1])) {
       foreach(${"{$varname}__matches"}[1] as ${"{$varname}__test_key"} => ${"{$varname}_test"}) {
-        ${"{$varname}_test"} = trim(${"{$varname}_test"});
         ${"{$varname}_tmp_name"} = md5(microtime());
         ${"{$varname}_tmp"} = "{${"{$varname}_tmp_dir"}}/test-{${"{$varname}_tmp_name"}}.js";          
-        file_put_contents(${"{$varname}_tmp"}, "{${"{$varname}_test"}}");
+        file_put_contents(${"{$varname}_tmp"}, ${"{$varname}_test"});
         ob_start();
         try {
-          exec('node ' . ${"{$varname}_tmp"}, $result);
-          ${"{$varname}_result"} = '';
-          if(isset($result[0])) {
-            ${"{$varname}_result"} = in_array($result[0], ['true', 'false', true, false]) ? (bool)$result[0] : $result[0];
+          exec('node ' . ${"{$varname}_tmp"}, $output);
+          $return = array_shift($output);
+          ${"{$varname}_result"} = $return;
+          if($return === 'true' || $return === 'false') {
+            ${"{$varname}_result"} = (bool) $return;
           }
         }
         catch(Exception | ErrorException | Error | ArgumentCountError | ArithmeticError | AssertionError | DivisionByZeroError | CompileError | ParseError | TypeError $e) {
@@ -126,19 +130,19 @@ foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
         }
       }
     }
-    preg_match_all('/\@test_using:js[\s]+(.*)/', ${"{$varname}_contents"}, ${"{$varname}__matches"});
+    preg_match_all('/\@test_using:js[\s]+(.*);?/', ${"{$varname}_contents"}, ${"{$varname}__matches"});
     if(isset(${"{$varname}__matches"}[1])) {
       foreach(${"{$varname}__matches"}[1] as ${"{$varname}__test_key"} => ${"{$varname}_test"}) {
-        ${"{$varname}_test"} = trim(${"{$varname}_test"});
         ${"{$varname}_tmp_name"} = md5(microtime());
-        ${"{$varname}_tmp"} = "{${"{$varname}_tmp_dir"}}/test-{${"{$varname}_tmp_name"}}.js";          
+        ${"{$varname}_tmp"} = "{${"{$varname}_tmp_dir"}}/test-{${"{$varname}_tmp_name"}}.js";   
         file_put_contents(${"{$varname}_tmp"}, file_get_contents($basedir . '/' . ${"{$varname}_test"}));
         ob_start();
         try {
-          exec('node ' . ${"{$varname}_tmp"}, $result);
-          ${"{$varname}_result"} = '';
-          if(isset($result[0])) {
-            ${"{$varname}_result"} = in_array($result[0], ['true', 'false', true, false]) ? (bool)$result[0] : $result[0];
+          exec('node ' . ${"{$varname}_tmp"}, $output);
+          $return = array_shift($output);
+          ${"{$varname}_result"} = $return;
+          if($return === 'true' || $return === 'false') {
+            ${"{$varname}_result"} = (bool) $return;
           }
         }
         catch(Exception | ErrorException | Error | ArgumentCountError | ArithmeticError | AssertionError | DivisionByZeroError | CompileError | ParseError | TypeError $e) {
