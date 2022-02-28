@@ -1,3 +1,5 @@
+![img](./assets/phptest-cover.png)
+
 # PHPTest
 
 Uma alternativa ao PHPUnit
