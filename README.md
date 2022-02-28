@@ -1,4 +1,4 @@
-![img](./assets/phptest-cover.png?v2)
+![img](./assets/phptest-cover-v2.png)
 
 # PHPTest
 
