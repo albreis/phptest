@@ -1,20 +1,26 @@
 <?php 
 error_reporting(E_ALL);
 ini_set('display_errors', E_ALL);
+$projectRootPath = realpath(__DIR__ . '/../../../');
 $varname = time();
+$vendor = $projectRootPath . '/vendor/autoload.php';
+$bootstrap = $projectRootPath . '/bootstrap/app.php';
 @list(${"{$varname}_script"}, ${"{$varname}_path"}, ${"{$varname}_vendor_path"}) = $argv;
-${"{$varname}_vendor_path"} = str_replace('--vendor=', '', ${"{$varname}_vendor_path"});
-if(empty(${"{$varname}_vendor_path"})) { ${"{$varname}_vendor_path"} = 'vendor/autoload.php'; }
+${"{$varname}_vendor_path"} = str_replace('--vendor=', '', ${"{$varname}_vendor_path"}??$vendor);
+${"{$varname}_bootstrap_path"} = str_replace('--bootstrap=', '', ${"{$varname}_bootstrap_path"}??$bootstrap);
+if(empty(${"{$varname}_vendor_path"})) { ${"{$varname}_vendor_path"} = $projectRootPath . '/vendor/autoload.php'; }
+if(empty(${"{$varname}_bootstrap_path"})) { ${"{$varname}_bootstrap_path"} = $projectRootPath . '/bootstrap/app.php'; }
 if (file_exists(${"{$varname}_vendor_path"})) { require ${"{$varname}_vendor_path"}; }
+if (file_exists(${"{$varname}_bootstrap_path"})) { require ${"{$varname}_bootstrap_path"}; }
 ${"{$varname}_path"} = ${"{$varname}_path"} ?? '.';
-${"{$varname}_rii"} = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(${"{$varname}_path"}));
+${"{$varname}_rii"} = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($projectRootPath . '/' . ${"{$varname}_path"}));
 ${"{$varname}_files"} = [];
 ${"{$varname}_classes"} = [];
 ${"{$varname}_tmp_dir"} = dirname(__FILE__) . '/tmp';
 if(!file_exists(${"{$varname}_tmp_dir"})) { mkdir(${"{$varname}_tmp_dir"}, 0755, true); }
 ${"{$varname}_errors"} = 0;
-set_error_handler(function() {}); 
-set_exception_handler(function() {});
+// set_error_handler(function() {}); 
+// set_exception_handler(function() {});
 require __DIR__ . '/helpers.php';
 foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
   if(!${"{$varname}_file"}->isDir()) {
