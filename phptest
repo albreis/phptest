@@ -3,6 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', E_ALL);
 $currentWorkingDir = getcwd();
 $varname = time();
+$logs = [];
 $vendor = $currentWorkingDir . '/vendor/autoload.php';
 $bootstrap = $currentWorkingDir . '/bootstrap/app.php';
 @list(${"{$varname}_script"}, ${"{$varname}_path"}, ${"{$varname}_vendor_path"}) = $argv;
