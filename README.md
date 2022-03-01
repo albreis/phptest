@@ -30,6 +30,8 @@ ou
 
 @expect return [retorno esperado do teste anterior]
 
+## Testando Exceptions
+
 Em caso de testes para exceptions não é necessário fazer o return, pois o retorno é feito automaticamente com a mensagem da exception.
 
 Exemplo de teste de exception:
