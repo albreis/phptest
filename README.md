@@ -22,11 +22,15 @@ Para utilizar está suite de teste basta utilizar o padrão:
 
 @test [codigo php para executar contendo um "return"]
 
+O valor retornado precisa ser true ou false
+
 ou 
 
 @test [codigo php para executar contendo um "return"]
 
 @expect return [retorno esperado do teste anterior]
+
+## Testando Exceptions
 
 Em caso de testes para exceptions não é necessário fazer o return, pois o retorno é feito automaticamente com a mensagem da exception.
 
@@ -62,8 +66,6 @@ Status: Success
 
 Congratulations! All tests are passed.
 ```
-
-O valor retornado precisa ser true ou false
 
 Veja abaixo algums exemplos de utilização da ferramenta
 
