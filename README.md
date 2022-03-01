@@ -20,7 +20,47 @@ composer require albreis/phptest
 
 Para utilizar está suite de teste basta utilizar o padrão:
 
-@test return [codigo php para executar]
+@test [codigo php para executar contendo um "return"]
+
+ou 
+
+@test [codigo php para executar contendo um "return"]
+@expect return [retorno esperado do teste anterior]
+
+Em caso de testes para exceptions não é necessário fazer o return, pois o retorno é feito automaticamente com a mensagem da exception.
+
+Exemplo de teste de exception:
+
+```php
+<?php namespace Albreis\Kurin;
+
+use Albreis\Kurin\Interfaces\IEvent;
+
+/** @package Albreis\Kurin */
+
+/**
+ * @test new Albreis\Kurin\Event
+ * @expect return 'Cannot instantiate abstract class Albreis\Kurin\Event';
+ */
+abstract class Event implements IEvent {
+
+  private ?array $callbacks = [];
+  private $message;
+  ...
+```
+
+Exectando o teste acima o retorno será, pois uma classe abstrata não pode ser instanciada, logo, esperamos essa mensagem de retorno:
+
+```bash
+File: /home/webprodutora/everhost.net.br/kurin/src/Event.php
+Line: 8
+Test: new Albreis\Kurin\Event
+Return: string(53) "Cannot instantiate abstract class Albreis\Kurin\Event"
+Expect: Cannot instantiate abstract class Albreis\Kurin\Event
+Status: Success
+
+Congratulations! All tests are passed.
+```
 
 O valor retornado precisa ser true ou false
 
