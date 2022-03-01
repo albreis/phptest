@@ -25,6 +25,7 @@ Para utilizar está suite de teste basta utilizar o padrão:
 ou 
 
 @test [codigo php para executar contendo um "return"]
+
 @expect return [retorno esperado do teste anterior]
 
 Em caso de testes para exceptions não é necessário fazer o return, pois o retorno é feito automaticamente com a mensagem da exception.
