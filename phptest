@@ -51,7 +51,9 @@ foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
         echo $logs[] = "File: ".realpath(${"{$varname}_file"})."\n";
         echo $logs[] = "Line: {$ln}\n";
         echo $logs[] = "Test: {${"{$varname}_test"}}\n";
-        echo $logs[] = "Return: "; var_dump(${"{$varname}_result"});
+        ob_start();
+        var_dump(${"{$varname}_result"});
+        echo $logs[] = 'Return: ' . trim(ob_get_clean()) . "\n";
         echo $logs[] = "Status: " . (${"{$varname}_result"} === true ? 'Success' : 'Failed');
         echo $logs[] = "\n\n";
         unlink(${"{$varname}_tmp"});
@@ -83,7 +85,9 @@ foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
         echo $logs[] = "Line: {$ln}\n";
         echo $logs[] = "Test using: {$basedir}/{${"{$varname}_test"}}\n";
         echo $logs[] = "Source: \n---------\n" . file_get_contents($basedir . '/' . ${"{$varname}_test"}) . "\n---------\n";
-        echo $logs[] = "Return: "; var_dump(${"{$varname}_result"});
+        ob_start();
+        var_dump(${"{$varname}_result"});
+        echo $logs[] = 'Return: ' . trim(ob_get_clean()) . "\n";
         echo $logs[] = "Status: " . (${"{$varname}_result"} === true ? 'Success' : 'Failed');
         echo $logs[] = "\n\n";
         unlink(${"{$varname}_tmp"});
@@ -119,7 +123,9 @@ foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
         echo $logs[] = "File: ".realpath(${"{$varname}_file"})."\n";
         echo $logs[] = "Line: {$ln}\n";
         echo $logs[] = "Test: {${"{$varname}_test"}}\n";
-        echo $logs[] = "Return: "; var_dump(${"{$varname}_result"});
+        ob_start();
+        var_dump(${"{$varname}_result"});
+        echo $logs[] = 'Return: ' . trim(ob_get_clean()) . "\n";
         echo $logs[] = "Status: " . (${"{$varname}_result"} === true ? 'Success' : 'Failed');
         echo $logs[] = "\n\n";
         unlink(${"{$varname}_tmp"});
@@ -156,7 +162,9 @@ foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
         echo $logs[] = "Line: {$ln}\n";
         echo $logs[] = "Test using: {$basedir}/{${"{$varname}_test"}}\n";
         echo $logs[] = "Source: \n---------\n" . file_get_contents($basedir . '/' . ${"{$varname}_test"}) . "\n---------\n";
-        echo $logs[] = "Return: "; var_dump(${"{$varname}_result"});
+        ob_start();
+        var_dump(${"{$varname}_result"});
+        echo $logs[] = 'Return: ' . trim(ob_get_clean()) . "\n";
         echo $logs[] = "Status: " . (${"{$varname}_result"} === true ? 'Success' : 'Failed');
         echo $logs[] = "\n\n";
         unlink(${"{$varname}_tmp"});
@@ -167,7 +175,7 @@ foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
     }
   }
 }
-file_put_contents($projectRootPath . '/phptest.logs.json', json_encode($logs, JSON_PRETTY_PRINT));
+file_put_contents($projectRootPath . '/phptest.logs', trim(implode('', $logs)));
 if(${"{$varname}_errors"}) {
   exit("\033[31m There is something wrong! Try review your code.\033[0m\n");
 }
