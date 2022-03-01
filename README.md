@@ -163,3 +163,7 @@ Clone a branch Develop, crie uma nova branch com sua feature, faça suas altera�
 ## **Doações**
 
 No momento estou mantendo o projeto totalmente sozinho, então, doações são bem vindas! :) Podem ser feitas atravez do PIX 12454995727 ou via paypal contato@everaldoreis.com.br
+
+## Suporte
+
+WhatsApp: https://wa.me/554898523084
