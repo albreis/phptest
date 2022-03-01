@@ -22,15 +22,10 @@ Para utilizar está suite de teste basta utilizar o padrão:
 
 @test [codigo php para executar contendo um "return"]
 
-O valor retornado precisa ser true ou false
-
 ou 
 
 @test [codigo php para executar contendo um "return"]
-
 @expect return [retorno esperado do teste anterior]
-
-## Testando Exceptions
 
 Em caso de testes para exceptions não é necessário fazer o return, pois o retorno é feito automaticamente com a mensagem da exception.
 
@@ -66,6 +61,8 @@ Status: Success
 
 Congratulations! All tests are passed.
 ```
+
+O valor retornado precisa ser true ou false
 
 Veja abaixo algums exemplos de utilização da ferramenta
 
@@ -185,6 +182,31 @@ Status: Success
 
 Congratulations! All tests are passed.
 ```
+
+## Excluir um arquivo ou diretório dos testes
+
+Caso você não queira testar alguns arquivos ou diretórios específicos você pode utilizar a opção --exclude ou --exclude_regex, veja um exemplo:
+
+**Ignorar o diretório vendor**
+
+```bash
+php vendor/bin/phptest --exclude-regex=vendor/* .
+```
+
+**Ignorar o arquivo index.php**
+
+```bash
+php vendor/bin/phptest --exclude-regex=vendor/* .
+```
+
+**Ignorar o arquivo index.php e o diretório vendor**
+
+```bash
+php vendor/bin/phptest --exclude-regex=vendor/* --exclude=index.php .
+```
+
+
+
 ## Logs
 
 Após os testes serem executados será salvo um arquivo de logs na raiz do projeto chamado phptest.logs, contendo um feedback completo de todos os testes.
