@@ -1,12 +1,20 @@
 <?php 
 error_reporting(E_ALL);
 ini_set('display_errors', E_ALL);
-$opts = array_merge([], getopt('', ['include::']));
+$opts = array_merge(['exclude' => '', 'exclude-regex' => ''], getopt('', ['include::', 'exclude::', 'exclude-regex::']));
 $opts['include'] = isset($opts['include']);
 $currentWorkingDir = getcwd();
 $logs = [];
 $varname = time();
 $vendor = $currentWorkingDir . '/vendor/autoload.php';
+if(!empty($opts['exclude'])) {
+  if(is_array($opts['exclude'])) {
+    $opts['exclude'] = array_map(function($item) { return realpath($item); }, $opts['exclude']);
+  }
+  else {
+    $opts['exclude'] = realpath($opts['exclude']) ?? dirname($vendor);
+  }
+}
 $bootstrap = $currentWorkingDir . '/bootstrap/app.php';
 ${"{$varname}_path"} = $opts['path'] ?? end($argv);
 ${"{$varname}_vendor_path"} = $opts['vendor'] ?? $vendor;
@@ -22,9 +30,37 @@ if(!file_exists(${"{$varname}_tmp_dir"})) { mkdir(${"{$varname}_tmp_dir"}, 0755,
 ${"{$varname}_errors"} = 0;
 require __DIR__ . '/helpers.php';
 foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
+  if(!empty($opts['exclude'])) {
+    if(is_array($opts['exclude'])) {
+      foreach($opts['exclude'] as $exc) {      
+        if(realpath(${"{$varname}_file"}->getPathname()) == $exc) {
+          continue;
+        }
+      }
+    }
+    else {
+      if(realpath(${"{$varname}_file"}->getPathname()) == $opts['exclude']) {
+        continue;
+      }
+    }
+  }
+  if(!empty($opts['exclude-regex'])) {
+    if(is_array($opts['exclude-regex'])) {
+      foreach($opts['exclude-regex'] as $exc) {      
+        if(preg_match("#{$exc}#i", realpath(${"{$varname}_file"}->getPathname()))) {
+          continue;
+        }
+      }
+    }
+    else {
+      if(preg_match("#{$opts['exclude-regex']}#i", realpath(${"{$varname}_file"}->getPathname()))) {
+        continue;
+      }
+    }
+  }
   if(!${"{$varname}_file"}->isDir()) {
     ob_start();
-    if(in_array($opts['include'], ['true', true, 1])) require ${"{$varname}_file"}->getPathname();
+    if(in_array($opts['include'], ['true', true, 1])) include ${"{$varname}_file"}->getPathname();
     ob_end_clean();
     ${"{$varname}_files"}[] = ${"{$varname}_file"}->getPathname();
     ${"{$varname}_contents"} = file_get_contents(${"{$varname}_file"}->getPathname());
@@ -58,17 +94,7 @@ foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
         var_dump(${"{$varname}_result"});
         echo $logs[] = 'Return: ' . trim(ob_get_clean()) . "\n";
         if(isset(${"{$varname}__matches_expect"}[0])) {
-          ${"{$varname}_tmp_expec_name"} = md5(microtime());
-          ${"{$varname}_tmp_expec"} = "{${"{$varname}_tmp_dir"}}/test-{${"{$varname}_tmp_expec_name"}}.php";  
-          file_put_contents(${"{$varname}_tmp_expec"}, "<?php {${"{$varname}__matches_expect"}[1]};");
-          ob_start();
-          try {
-            $expect = require ${"{$varname}_tmp_expec"};
-          }
-          catch(Exception | ErrorException | Error | ArgumentCountError | ArithmeticError | AssertionError | DivisionByZeroError | CompileError | ParseError | TypeError $e) {
-            $expect = $e->getMessage();
-          }
-          ob_end_clean();
+          $expect = eval(${"{$varname}__matches_expect"}[1]);
           ob_start();
           var_dump($expect);
           $expect_ret = ob_get_clean();
@@ -114,17 +140,7 @@ foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
         var_dump(${"{$varname}_result"});
         echo $logs[] = 'Return: ' . trim(ob_get_clean()) . "\n";
         if(isset(${"{$varname}__matches_expect"}[0])) {
-          ${"{$varname}_tmp_expec_name"} = md5(microtime());
-          ${"{$varname}_tmp_expec"} = "{${"{$varname}_tmp_dir"}}/test-{${"{$varname}_tmp_expec_name"}}.php";  
-          file_put_contents(${"{$varname}_tmp_expec"}, "<?php {${"{$varname}__matches_expect"}[1]};");
-          ob_start();
-          try {
-            $expect = require ${"{$varname}_tmp_expec"};
-          }
-          catch(Exception | ErrorException | Error | ArgumentCountError | ArithmeticError | AssertionError | DivisionByZeroError | CompileError | ParseError | TypeError $e) {
-            $expect = $e->getMessage();
-          }
-          ob_end_clean();
+          $expect = eval(${"{$varname}__matches_expect"}[1]);
           ob_start();
           var_dump($expect);
           $expect_ret = ob_get_clean();
@@ -174,17 +190,7 @@ foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
         var_dump(${"{$varname}_result"});
         echo $logs[] = 'Return: ' . trim(ob_get_clean()) . "\n";
         if(isset(${"{$varname}__matches_expect"}[0])) {
-          ${"{$varname}_tmp_expec_name"} = md5(microtime());
-          ${"{$varname}_tmp_expec"} = "{${"{$varname}_tmp_dir"}}/test-{${"{$varname}_tmp_expec_name"}}.php";  
-          file_put_contents(${"{$varname}_tmp_expec"}, "<?php {${"{$varname}__matches_expect"}[1]};");
-          ob_start();
-          try {
-            $expect = require ${"{$varname}_tmp_expec"};
-          }
-          catch(Exception | ErrorException | Error | ArgumentCountError | ArithmeticError | AssertionError | DivisionByZeroError | CompileError | ParseError | TypeError $e) {
-            $expect = $e->getMessage();
-          }
-          ob_end_clean();
+          $expect = eval(${"{$varname}__matches_expect"}[1]);
           ob_start();
           var_dump($expect);
           $expect_ret = ob_get_clean();
@@ -235,17 +241,7 @@ foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
         var_dump(${"{$varname}_result"});
         echo $logs[] = 'Return: ' . trim(ob_get_clean()) . "\n";
         if(isset(${"{$varname}__matches_expect"}[0])) {
-          ${"{$varname}_tmp_expec_name"} = md5(microtime());
-          ${"{$varname}_tmp_expec"} = "{${"{$varname}_tmp_dir"}}/test-{${"{$varname}_tmp_expec_name"}}.php";  
-          file_put_contents(${"{$varname}_tmp_expec"}, "<?php {${"{$varname}__matches_expect"}[1]};");
-          ob_start();
-          try {
-            $expect = require ${"{$varname}_tmp_expec"};
-          }
-          catch(Exception | ErrorException | Error | ArgumentCountError | ArithmeticError | AssertionError | DivisionByZeroError | CompileError | ParseError | TypeError $e) {
-            $expect = $e->getMessage();
-          }
-          ob_end_clean();
+          $expect = eval(${"{$varname}__matches_expect"}[1]);
           ob_start();
           var_dump($expect);
           $expect_ret = ob_get_clean();
