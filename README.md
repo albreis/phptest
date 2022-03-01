@@ -74,7 +74,7 @@ class Anime {
 php vendor/albreis/test/phptest {diretorio}
 ```
 
-### Escrevendo testes em arquivos externos
+## Escrevendo testes em arquivos externos
 
 Quando o teste for muito complexo é precisa de várias linhas o ideal é escrever em um arquivo externo.
 
@@ -142,9 +142,24 @@ Status: Success
 
 Congratulations! All tests are passed.
 ```
+## Logs
+
+Após os testes serem executados será salvo um arquivo de logs na raiz do projeto chamado phptest.logs, contendo um feedback completo de todos os testes.
 
 ## Helpers
 
+O PHPTest possui algumas funções para auxiliar na execução de alguns testes.
+
+```php
 get_http_status_code(string $url)
+```
 
 Retorna o código de status HTTP
+
+## Contribuições
+
+Clone a branch Develop, crie uma nova branch com sua feature, faça suas alterações e depois crie um PR (pull request) que irei avaliar o que foi feito e se aprovado farei o merge na Main.
+
+## **Doações**
+
+No momento estou mantendo o projeto totalmente sozinho, então, doações são bem vindas! :) Podem ser feitas atravez do PIX 12454995727 ou via paypal contato@everaldoreis.com.br
