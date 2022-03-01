@@ -19,8 +19,6 @@ ${"{$varname}_classes"} = [];
 ${"{$varname}_tmp_dir"} = dirname(__FILE__) . '/tmp';
 if(!file_exists(${"{$varname}_tmp_dir"})) { mkdir(${"{$varname}_tmp_dir"}, 0755, true); }
 ${"{$varname}_errors"} = 0;
-// set_error_handler(function() {}); 
-// set_exception_handler(function() {});
 require __DIR__ . '/helpers.php';
 foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
   if(!${"{$varname}_file"}->isDir()) {
@@ -50,12 +48,12 @@ foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
           if(stripos($line, ${"{$varname}_test"}) !== false) break;
         }
         $ln++;
-        echo "File: ".realpath(${"{$varname}_file"})."\n";
-        echo "Line: {$ln}\n";
-        echo "Test: {${"{$varname}_test"}}\n";
-        echo "Return: "; var_dump(${"{$varname}_result"});
-        echo "Status: " . (${"{$varname}_result"} === true ? 'Success' : 'Failed');
-        echo "\n\n";
+        echo $logs[] = "File: ".realpath(${"{$varname}_file"})."\n";
+        echo $logs[] = "Line: {$ln}\n";
+        echo $logs[] = "Test: {${"{$varname}_test"}}\n";
+        echo $logs[] = "Return: "; var_dump(${"{$varname}_result"});
+        echo $logs[] = "Status: " . (${"{$varname}_result"} === true ? 'Success' : 'Failed');
+        echo $logs[] = "\n\n";
         unlink(${"{$varname}_tmp"});
         if(${"{$varname}_result"} !== true) {
           ${"{$varname}_errors"}++;
@@ -81,13 +79,13 @@ foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
           if(stripos($line, ${"{$varname}_test"}) !== false) break;
         }
         $ln++;
-        echo "File: ".realpath(${"{$varname}_file"})."\n";
-        echo "Line: {$ln}\n";
-        echo "Test using: {$basedir}/{${"{$varname}_test"}}\n";
-        echo "Source: \n---------\n" . file_get_contents($basedir . '/' . ${"{$varname}_test"}) . "\n---------\n";
-        echo "Return: "; var_dump(${"{$varname}_result"});
-        echo "Status: " . (${"{$varname}_result"} === true ? 'Success' : 'Failed');
-        echo "\n\n";
+        echo $logs[] = "File: ".realpath(${"{$varname}_file"})."\n";
+        echo $logs[] = "Line: {$ln}\n";
+        echo $logs[] = "Test using: {$basedir}/{${"{$varname}_test"}}\n";
+        echo $logs[] = "Source: \n---------\n" . file_get_contents($basedir . '/' . ${"{$varname}_test"}) . "\n---------\n";
+        echo $logs[] = "Return: "; var_dump(${"{$varname}_result"});
+        echo $logs[] = "Status: " . (${"{$varname}_result"} === true ? 'Success' : 'Failed');
+        echo $logs[] = "\n\n";
         unlink(${"{$varname}_tmp"});
         if(${"{$varname}_result"} !== true) {
           ${"{$varname}_errors"}++;
@@ -118,12 +116,12 @@ foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
           if(stripos($line, ${"{$varname}_test"}) !== false) break;
         }
         $ln++;
-        echo "File: ".realpath(${"{$varname}_file"})."\n";
-        echo "Line: {$ln}\n";
-        echo "Test: {${"{$varname}_test"}}\n";
-        echo "Return: "; var_dump(${"{$varname}_result"});
-        echo "Status: " . (${"{$varname}_result"} === true ? 'Success' : 'Failed');
-        echo "\n\n";
+        echo $logs[] = "File: ".realpath(${"{$varname}_file"})."\n";
+        echo $logs[] = "Line: {$ln}\n";
+        echo $logs[] = "Test: {${"{$varname}_test"}}\n";
+        echo $logs[] = "Return: "; var_dump(${"{$varname}_result"});
+        echo $logs[] = "Status: " . (${"{$varname}_result"} === true ? 'Success' : 'Failed');
+        echo $logs[] = "\n\n";
         unlink(${"{$varname}_tmp"});
         if(${"{$varname}_result"} !== true) {
           ${"{$varname}_errors"}++;
@@ -154,13 +152,13 @@ foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
           if(stripos($line, ${"{$varname}_test"}) !== false) break;
         }
         $ln++;
-        echo "File: ".realpath(${"{$varname}_file"})."\n";
-        echo "Line: {$ln}\n";
-        echo "Test using: {$basedir}/{${"{$varname}_test"}}\n";
-        echo "Source: \n---------\n" . file_get_contents($basedir . '/' . ${"{$varname}_test"}) . "\n---------\n";
-        echo "Return: "; var_dump(${"{$varname}_result"});
-        echo "Status: " . (${"{$varname}_result"} === true ? 'Success' : 'Failed');
-        echo "\n\n";
+        echo $logs[] = "File: ".realpath(${"{$varname}_file"})."\n";
+        echo $logs[] = "Line: {$ln}\n";
+        echo $logs[] = "Test using: {$basedir}/{${"{$varname}_test"}}\n";
+        echo $logs[] = "Source: \n---------\n" . file_get_contents($basedir . '/' . ${"{$varname}_test"}) . "\n---------\n";
+        echo $logs[] = "Return: "; var_dump(${"{$varname}_result"});
+        echo $logs[] = "Status: " . (${"{$varname}_result"} === true ? 'Success' : 'Failed');
+        echo $logs[] = "\n\n";
         unlink(${"{$varname}_tmp"});
         if(${"{$varname}_result"} !== true) {
           ${"{$varname}_errors"}++;
@@ -169,6 +167,7 @@ foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
     }
   }
 }
+file_put_contents($projectRootPath . '/phptest.logs.json', json_encode($logs, JSON_PRETTY_PRINT));
 if(${"{$varname}_errors"}) {
   exit("\033[31m There is something wrong! Try review your code.\033[0m\n");
 }
