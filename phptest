@@ -94,7 +94,17 @@ foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
         var_dump(${"{$varname}_result"});
         echo $logs[] = 'Return: ' . trim(ob_get_clean()) . "\n";
         if(isset(${"{$varname}__matches_expect"}[0])) {
-          $expect = eval(${"{$varname}__matches_expect"}[1]);
+          ${"{$varname}_tmp_expec_name"} = md5(microtime());
+          ${"{$varname}_tmp_expec"} = "{${"{$varname}_tmp_dir"}}/test-{${"{$varname}_tmp_expec_name"}}.php";  
+          file_put_contents(${"{$varname}_tmp_expec"}, "<?php {${"{$varname}__matches_expect"}[1]};");
+          ob_start();
+          try {
+            $expect = require ${"{$varname}_tmp_expec"};
+          }
+          catch(Exception | ErrorException | Error | ArgumentCountError | ArithmeticError | AssertionError | DivisionByZeroError | CompileError | ParseError | TypeError $e) {
+            $expect = $e->getMessage();
+          }
+          ob_end_clean();
           ob_start();
           var_dump($expect);
           $expect_ret = ob_get_clean();
@@ -140,7 +150,17 @@ foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
         var_dump(${"{$varname}_result"});
         echo $logs[] = 'Return: ' . trim(ob_get_clean()) . "\n";
         if(isset(${"{$varname}__matches_expect"}[0])) {
-          $expect = eval(${"{$varname}__matches_expect"}[1]);
+          ${"{$varname}_tmp_expec_name"} = md5(microtime());
+          ${"{$varname}_tmp_expec"} = "{${"{$varname}_tmp_dir"}}/test-{${"{$varname}_tmp_expec_name"}}.php";  
+          file_put_contents(${"{$varname}_tmp_expec"}, "<?php {${"{$varname}__matches_expect"}[1]};");
+          ob_start();
+          try {
+            $expect = require ${"{$varname}_tmp_expec"};
+          }
+          catch(Exception | ErrorException | Error | ArgumentCountError | ArithmeticError | AssertionError | DivisionByZeroError | CompileError | ParseError | TypeError $e) {
+            $expect = $e->getMessage();
+          }
+          ob_end_clean();
           ob_start();
           var_dump($expect);
           $expect_ret = ob_get_clean();
@@ -190,7 +210,17 @@ foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
         var_dump(${"{$varname}_result"});
         echo $logs[] = 'Return: ' . trim(ob_get_clean()) . "\n";
         if(isset(${"{$varname}__matches_expect"}[0])) {
-          $expect = eval(${"{$varname}__matches_expect"}[1]);
+          ${"{$varname}_tmp_expec_name"} = md5(microtime());
+          ${"{$varname}_tmp_expec"} = "{${"{$varname}_tmp_dir"}}/test-{${"{$varname}_tmp_expec_name"}}.php";  
+          file_put_contents(${"{$varname}_tmp_expec"}, "<?php {${"{$varname}__matches_expect"}[1]};");
+          ob_start();
+          try {
+            $expect = require ${"{$varname}_tmp_expec"};
+          }
+          catch(Exception | ErrorException | Error | ArgumentCountError | ArithmeticError | AssertionError | DivisionByZeroError | CompileError | ParseError | TypeError $e) {
+            $expect = $e->getMessage();
+          }
+          ob_end_clean();
           ob_start();
           var_dump($expect);
           $expect_ret = ob_get_clean();
@@ -241,7 +271,17 @@ foreach(${"{$varname}_rii"} as ${"{$varname}_file"}) {
         var_dump(${"{$varname}_result"});
         echo $logs[] = 'Return: ' . trim(ob_get_clean()) . "\n";
         if(isset(${"{$varname}__matches_expect"}[0])) {
-          $expect = eval(${"{$varname}__matches_expect"}[1]);
+          ${"{$varname}_tmp_expec_name"} = md5(microtime());
+          ${"{$varname}_tmp_expec"} = "{${"{$varname}_tmp_dir"}}/test-{${"{$varname}_tmp_expec_name"}}.php";  
+          file_put_contents(${"{$varname}_tmp_expec"}, "<?php {${"{$varname}__matches_expect"}[1]};");
+          ob_start();
+          try {
+            $expect = require ${"{$varname}_tmp_expec"};
+          }
+          catch(Exception | ErrorException | Error | ArgumentCountError | ArithmeticError | AssertionError | DivisionByZeroError | CompileError | ParseError | TypeError $e) {
+            $expect = $e->getMessage();
+          }
+          ob_end_clean();
           ob_start();
           var_dump($expect);
           $expect_ret = ob_get_clean();
