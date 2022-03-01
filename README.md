@@ -232,3 +232,5 @@ No momento estou mantendo o projeto totalmente sozinho, então, doações são b
 ## Suporte
 
 WhatsApp: https://wa.me/554898523084
+
+![img](./assets/frase.jpg)
